@@ -1,19 +1,31 @@
 import httpService from "./httpService";
 import config from "../config.json";
 
-const apiEndpoint = config.apiUrl + "/employee/login";
-
 async function login(email, password) {
+  const apiEndpoint = config.apiUrl + "/employee/login";
   const { data } = await httpService.post(apiEndpoint, {
     email,
-    password
+    password,
   });
 
   return data;
 }
 
-const employeeService = {
-  login
+async function register({ email, password, name, age }) {
+  const apiEndpoint = config.apiUrl + "/employee/register";
+  age = Number(age);
+
+  return httpService.post(apiEndpoint, {
+    email,
+    password,
+    name,
+    age,
+  });
 }
+
+const employeeService = {
+  login,
+  register,
+};
 
 export default employeeService;

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Input from "./common/input";
+import auth from "../services/authService";
+import employeeService from "../services/employeeService";
 
-import Input from "./input";
-import auth from "../../services/authService";
-
-class LoginForm extends Component {
+class EmployeeRegister extends Component {
   state = {
-    data: { email: "", password: "" },
+    data: { email: "", password: "", confirmPassword: "", name: "", age: "" },
     errors: {},
   };
 
@@ -16,6 +16,9 @@ class LoginForm extends Component {
     const { data } = this.state;
     if (data.email.trim() === "") {
       errors.email = "Email is required";
+    }
+    if (data.name.trim() === "") {
+      errors.name = "Name is required";
     }
     if (data.password.trim() === "") {
       errors.password = "Password is required";
@@ -28,6 +31,7 @@ class LoginForm extends Component {
     e.preventDefault();
 
     const errors = this.validate();
+    console.log(errors);
     this.setState({ errors: errors || {} });
 
     if (errors) return;
@@ -37,9 +41,8 @@ class LoginForm extends Component {
 
   doSubmit = async () => {
     try {
-      const { data } = this.state;
-      const { variant } = this.props;
-      await auth.login(data.email, data.password, variant);
+      const response = await employeeService.register(this.state.data);
+      auth.loginWithJwt(response.headers["x-auth-token"]);
       window.location = "/";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -54,8 +57,24 @@ class LoginForm extends Component {
     if (name === "email") {
       if (value.trim() === "") return "Email is required";
     }
+    if (name === "name") {
+      if (value.trim() === "") return "Name is required";
+    }
     if (name === "password") {
-      if (value.trim() === "") return "Password is required";
+      const minimumPasswordLength = 5;
+      if (value.length < minimumPasswordLength)
+        return `Password should be at least ${minimumPasswordLength} characters long`;
+      if (!/\d/.test(value))
+        return "Password should contain atleast one number";
+      if (!/[a-z]/.test(value))
+        return "Password should contain atleast one lowercase letter";
+      if (!/[A-Z]/.test(value))
+        return "Password should contain atleast one uppercase letter";
+    }
+
+    if (name === "confirmPassword") {
+      if (value !== this.state.data.password)
+        return "Make sure this matches your password";
     }
   };
 
@@ -70,20 +89,12 @@ class LoginForm extends Component {
     this.setState({ data, errors });
   };
 
-  getRegisterLink = () => {
-    const { variant } = this.props;
-    return "/" + variant.toLowerCase() + "Register";
-  }
-
   render() {
-    if (auth.getCurrentUser()) return <Navigate to="/" replace />;
-
     const { data, errors } = this.state;
-    const { variant } = this.props;
 
     return (
       <div className="formStyle">
-        <h1>{variant} Login</h1>
+        <h1>Register</h1>
         <form onSubmit={this.handleSubmit}>
           <Input
             name="email"
@@ -91,7 +102,7 @@ class LoginForm extends Component {
             label="Email"
             onChange={this.handleChange}
             error={errors.email}
-            type="email"
+            type="text"
           />
           <Input
             name="password"
@@ -101,12 +112,36 @@ class LoginForm extends Component {
             error={errors.password}
             type="password"
           />
+          <Input
+            name="confirmPassword"
+            value={data.confirmPassword}
+            label="Confirm Password"
+            onChange={this.handleChange}
+            error={errors.confirmPassword}
+            type="password"
+          />
+          <Input
+            name="name"
+            value={data.name}
+            label="Name"
+            onChange={this.handleChange}
+            error={errors.name}
+            type="text"
+          />
+          <Input
+            name="age"
+            value={data.age}
+            label="Age"
+            onChange={this.handleChange}
+            error={errors.age}
+            type="number"
+          />
           <button disabled={this.validate()} className="btn btn-primary">
-            Login
+            Register
           </button>
           <div style={{ marginTop: 10 }}>
             <p>
-              Don't have an account? <Link to={this.getRegisterLink()}>Register</Link>
+              Already have an account? <Link to="/employeeLogin">Login</Link>
             </p>
           </div>
         </form>
@@ -115,4 +150,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm;
+export default EmployeeRegister;

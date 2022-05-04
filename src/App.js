@@ -11,6 +11,8 @@ import Venues from './components/venues';
 import NotFound from './components/common/not-found';
 import Login from './components/login';
 import LoginForm from './components/common/loginForm';
+import EmployeeRegister from './components/employeeRegister';
+import OrganizationRegister from "./components/organizationRegister";
 
 class App extends Component {
   state = {};
@@ -30,6 +32,9 @@ class App extends Component {
           <Route path="/login" element={<Login />} />
           <Route path="/employeeLogin" element={<LoginForm variant="Employee" />} />
           <Route path="/organizationLogin" element={<LoginForm variant="Organization" />} />
+          <Route path="/employeeRegister" element={<EmployeeRegister />} />
+          <Route path="/organizationRegister" element={<OrganizationRegister />} />
+
           <Route path="/venues" element={<Venues />} />
           <Route path="/" element={<Home />} />
   
