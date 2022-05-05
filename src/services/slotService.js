@@ -29,11 +29,23 @@ export async function rescheduleSlot(slotId, date) {
   return data;
 }
 
+export async function getAllAllocatedSlotsOfVenue(venueId) {
+  const { data } = await httpService.get(apiEndpoint + "/allAllocatedSlots/" + venueId);
+  return data;
+}
+
+export async function markSlotAsCompleted(slotId) {
+  const { data } = await httpService.put(apiEndpoint + "/markAsCompleted/" + slotId);
+  return data;
+}
+
 const slotService = {
   getAllocatedSlotsOfEmployee,
   allocateSlot,
   cancelSlot,
   rescheduleSlot,
+  getAllAllocatedSlotsOfVenue,
+  markSlotAsCompleted
 };
 
 export default slotService;

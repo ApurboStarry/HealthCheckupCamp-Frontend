@@ -19,11 +19,13 @@ export async function getVenueById(venueId) {
 }
 
 export async function createVenue(venue) {
-
+  const { data } = await httpService.post(apiEndpoint, venue);
+  return data;
 }
 
 export async function deleteVenue(venueId) {
-
+  const { data } = await httpService.delete(apiEndpoint + "/" + venueId);
+  return data;
 }
 
 const venueService = {

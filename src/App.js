@@ -19,6 +19,7 @@ import AllocateSlot from './components/allocateSlot';
 import RescheduleSlot from './components/rescheduleSlot';
 import OrgainzationVenues from './components/organizationVenues';
 import AddVenue from './components/addVenue';
+import AllAllocatedSlots from './components/allAllocatedSlots';
 
 class App extends Component {
   state = {};
@@ -49,6 +50,7 @@ class App extends Component {
 
           <Route path="/organizationVenues" element={<OrgainzationVenues />} />
           <Route path="/addVenue" element={<AddVenue />} />
+          <Route path="/allAllocatedSlots/:venueId" element={<AllAllocatedSlots />} />
 
           <Route path="/" element={<Home />} />
           <Route path="*" element={<NotFound /> } />

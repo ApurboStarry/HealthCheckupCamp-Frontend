@@ -5,32 +5,56 @@ import Spinner from './common/spinner';
 import { Link } from 'react-router-dom';
 
 class OrgainzationVenues extends Component {
-  state = {  } 
+  state = {};
 
-  async componentDidMount() { 
+  async componentDidMount() {
     const currentUser = authService.getCurrentUser();
     const organizationId = currentUser._id;
-    const venues = await venueService.getAllVenuesByOrganization(organizationId);
+    const venues = await venueService.getAllVenuesByOrganization(
+      organizationId
+    );
     this.setState({ venues });
   }
 
-  render() { 
+  handleRemoveVenue = async (venueId) => {
+    const originalVenues = [...this.state.venues];
+    const newVenues = this.state.venues.filter(venue => venue._id !== venueId);
+    this.setState({ venues: newVenues });
+
+    try {
+      await venueService.deleteVenue(venueId);
+    } catch (error) {
+      this.setState({ venues: originalVenues });
+    }
+
+  };
+
+  render() {
     const { venues } = this.state;
-    if(!venues) {
-      return <Spinner />
+    if (!venues) {
+      return <Spinner />;
     }
 
     return (
       <div style={{ marginLeft: 100 }}>
         <h1>OrgainzationVenues</h1>
-        <Link to="/addVenue" className="btn btn-success m-2">Add Venue</Link>
+        <Link to="/addVenue" className="btn btn-success m-2">
+          Add Venue
+        </Link>
         <h3 style={{ marginTop: 40 }}>Your venues are as follows:</h3>
-        {venues.map(venue => {
+        {venues.map((venue) => {
           return (
-            <div>
-              <span key={venue._id}>{venue.name}</span>
-              <button className="btn btn-primary m-2">See slots</button>
-              <button className="btn btn-danger m-2">Remove Venue</button>
+            <div key={venue._id}>
+              <span>{venue.name}</span>
+              <Link to={"/allAllocatedSlots/" + venue._id}>
+                <button className="btn btn-primary m-2">See slots</button>
+              </Link>
+              <button
+                onClick={() => this.handleRemoveVenue(venue._id)}
+                className="btn btn-danger m-2"
+              >
+                Remove Venue
+              </button>
             </div>
           );
         })}
