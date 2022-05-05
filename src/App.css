@@ -42,3 +42,11 @@
   padding-right: 15%;
   padding-top: 20px;
 }
+
+.venuesTable {
+  position: absolute;
+  height: 80%; 
+  width: 80%;
+  /* top: 10%; */
+  left: 10%;
+}
