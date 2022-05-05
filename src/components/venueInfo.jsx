@@ -54,7 +54,7 @@ class VenueInfo extends Component {
     console.log("Organization", venue.organization);
 
     return (
-      <div>
+      <div style={{ marginLeft: 100 }}>
         <div>
           <h1>Venue Info</h1>
           <p>Venue Name: {venue.name}</p>

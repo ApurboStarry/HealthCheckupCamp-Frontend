@@ -8,6 +8,11 @@ export async function getAllVenues() {
   return data;
 }
 
+export async function getAllVenuesByOrganization(organizationId) {
+  const { data } = await httpService.get(apiEndpoint + "/organization/" + organizationId);
+  return data;
+}
+
 export async function getVenueById(venueId) {
   const { data } = await httpService.get(apiEndpoint + "/" + venueId);
   return data;
@@ -23,6 +28,7 @@ export async function deleteVenue(venueId) {
 
 const venueService = {
   getAllVenues,
+  getAllVenuesByOrganization,
   getVenueById,
   createVenue,
   deleteVenue

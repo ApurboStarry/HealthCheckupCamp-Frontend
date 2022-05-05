@@ -17,6 +17,8 @@ import OrganizationRegister from "./components/organizationRegister";
 import Venue from './components/venue';
 import AllocateSlot from './components/allocateSlot';
 import RescheduleSlot from './components/rescheduleSlot';
+import OrgainzationVenues from './components/organizationVenues';
+import AddVenue from './components/addVenue';
 
 class App extends Component {
   state = {};
@@ -40,10 +42,13 @@ class App extends Component {
           <Route path="/employeeRegister" element={<EmployeeRegister />} />
           <Route path="/organizationRegister" element={<OrganizationRegister />} />
 
-          <Route path="/venues/:venueId" element={<Venue /> } />
-          <Route path="/venues" element={<Venues />} />
+          <Route path="/employeeVenues/:venueId" element={<Venue /> } />
+          <Route path="/employeeVenues" element={<Venues />} />
           <Route path="/allocateSlot/:venueId" element={<AllocateSlot />} />
           <Route path="/rescheduleSlot/:slotId/:scheduledAt" element={<RescheduleSlot />} />
+
+          <Route path="/organizationVenues" element={<OrgainzationVenues />} />
+          <Route path="/addVenue" element={<AddVenue />} />
 
           <Route path="/" element={<Home />} />
           <Route path="*" element={<NotFound /> } />

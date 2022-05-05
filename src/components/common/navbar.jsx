@@ -28,11 +28,22 @@ class NavBar extends Component {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/venues">
-                  Venues
-                </NavLink>
-              </li>
+              {currentUser &&
+                currentUser.userType.toLowerCase() === "employee" && (
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/employeeVenues">
+                      Venues
+                    </NavLink>
+                  </li>
+                )}
+              {currentUser &&
+                currentUser.userType.toLowerCase() === "organization" && (
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/organizationVenues">
+                      Venues
+                    </NavLink>
+                  </li>
+              )}
               {!currentUser && (
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/login">

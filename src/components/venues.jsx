@@ -39,7 +39,7 @@ class Venues extends Component {
               return (
                 <tr key={venue._id}>
                   <td>
-                    <Link to={"/venues/" + venue._id}>{venue.name}</Link>
+                    <Link to={"/employeeVenues/" + venue._id}>{venue.name}</Link>
                   </td>
                   <td>{venue.location}</td>
                   <td>{venue.organization.name}</td>
